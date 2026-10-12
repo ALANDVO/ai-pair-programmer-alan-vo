@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "ai-pair-programmer-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "workflows": [
+    "Codebase dependency indexing and AST context extraction",
+    "Multi-file refactoring plan synthesis with unified diff preview",
+    "Deterministic offline patch generation and AST validation"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "summary": "Work in progress: ai-pair-programmer-alan-vo",
+  "status": "work-in-progress"
+}

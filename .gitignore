@@ -1,15 +1,37 @@
-__pycache__/
-*.pyc
-.env
+# Environments & Dependencies
 .venv/
 venv/
 node_modules/
+frontend/node_modules/
 dist/
+frontend/dist/
 build/
 *.egg-info/
+
+# Python cache & test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
 .pytest_cache/
 .mypy_cache/
-*.log
+.ruff_cache/
+coverage/
+*.coverage
+
+# Databases & Runtime storage
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Environment & Credentials
+.env
+.env.local
+
+# Agent metadata
+.antigravitycli/
+.omp/
+
+# OS artifacts
 .DS_Store
-frontend/node_modules/
-frontend/dist/
+*.log
