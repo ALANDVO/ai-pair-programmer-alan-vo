@@ -18,11 +18,11 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, isLoading }) => {
   const [path, setPath] = useState('.');
   const [maxFiles, setMaxFiles] = useState(15);
   const [dryRun, setDryRun] = useState(true);
-
+  const [useLLM, setUseLLM] = useState(false);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!task.trim()) return;
-    onSubmit({ task, path, max_files: maxFiles, dry_run: dryRun });
+    onSubmit({ task, path, max_files: maxFiles, dry_run: dryRun, use_llm: useLLM });
   };
 
   return (
@@ -87,6 +87,17 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, isLoading }) => {
           />
           <label htmlFor="dry-run-check" className="form-label" style={{ margin: 0, cursor: 'pointer' }}>
             Dry Run Mode (Preview diffs safely without disk modification)
+          </label>
+        </div>
+        <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <input
+            id="use-llm-check"
+            type="checkbox"
+            checked={useLLM}
+            onChange={(e) => setUseLLM(e.target.checked)}
+          />
+          <label htmlFor="use-llm-check" className="form-label" style={{ margin: 0, cursor: 'pointer' }}>
+            Use LLM Advisory Reasoning (requires configured provider)
           </label>
         </div>
 

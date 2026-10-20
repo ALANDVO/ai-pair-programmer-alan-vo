@@ -46,6 +46,7 @@ export interface RefactorStep {
   unified_diff: string;
   side_effects: string[];
   ast_valid: boolean;
+  llm_advisory?: string;
 }
 
 export interface RefactorPlan {
@@ -58,7 +59,10 @@ export interface RefactorPlan {
   ast_valid: boolean;
   model_used: string;
   generated_at: string;
+  llm_advisory?: string;
+  llm_provider?: string;
 }
+
 
 export interface RefactorRequest {
   task: string;

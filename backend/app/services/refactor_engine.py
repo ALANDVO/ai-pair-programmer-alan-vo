@@ -1,5 +1,6 @@
 """Deterministic multi-file refactoring engine, AST patcher, and unified diff generator."""
 import ast
+import asyncio
 import difflib
 import os
 import re
@@ -11,11 +12,13 @@ from app.models.schemas import (
     CodebaseIndex, FileContext, ApplyResult
 )
 from app.services.indexer import CodebaseIndexer
+from app.services.llm_adapter import LLMAdapter
 
 class RefactorEngine:
     def __init__(self, indexer: Optional[CodebaseIndexer] = None):
         self.indexer = indexer or CodebaseIndexer()
         self._plans_cache: Dict[str, RefactorPlan] = {}
+        self._llm_adapter = LLMAdapter()
 
     def plan_refactor(self, request: RefactorRequest) -> RefactorPlan:
         """Synthesize a deterministic refactoring plan with unified diffs and side-effect predictions."""
@@ -48,6 +51,40 @@ class RefactorEngine:
             if not s.ast_valid:
                 overall_ast_valid = False
 
+        # LLM advisory integration
+        llm_advisory = None
+        llm_provider = None
+        model_used = "deterministic-offline-engine"
+        if request.use_llm and self._llm_adapter.is_configured:
+            # Build context from indexed files for LLM
+            context_parts = []
+            for f in index.files:
+                sym_summary = ", ".join([s.name for s in f.symbols[:10]])
+                context_parts.append(f"{f.relative_path} ({f.language}): {sym_summary}")
+            code_context = "\n".join(context_parts[:15])  # Limit context size
+
+            try:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                llm_resp = loop.run_until_complete(
+                    self._llm_adapter.generate_explanation(code_context, request.task)
+                )
+                loop.close()
+
+                if llm_resp.get("explanation"):
+                    llm_advisory = llm_resp["explanation"]
+                    llm_provider = llm_resp.get("provider", "unknown")
+                    if llm_resp.get("source") != "deterministic-offline-core":
+                        model_used = f"{llm_provider}:{self._llm_adapter.model}"
+            except Exception:
+                # Silently fall back to deterministic mode on LLM errors
+                pass
+
+        # Attach LLM advisory to each step if available
+        if llm_advisory:
+            for step in steps:
+                step.llm_advisory = llm_advisory
+
         plan = RefactorPlan(
             plan_id=plan_id,
             task=request.task,
@@ -56,8 +93,10 @@ class RefactorEngine:
             estimated_impact="medium" if len(steps) > 2 else "low",
             potential_risks=risks,
             ast_valid=overall_ast_valid,
-            model_used="deterministic-offline-engine",
-            generated_at=datetime.now(timezone.utc).isoformat()
+            model_used=model_used,
+            generated_at=datetime.now(timezone.utc).isoformat(),
+            llm_advisory=llm_advisory,
+            llm_provider=llm_provider
         )
         self._plans_cache[plan_id] = plan
         return plan

@@ -31,4 +31,28 @@ describe('TaskForm Component', () => {
       dry_run: true
     }));
   });
+
+  it('includes use_llm checkbox and passes it in onSubmit', () => {
+    const handleSubmit = vi.fn();
+    render(<TaskForm onSubmit={handleSubmit} isLoading={false} />);
+
+    const llmCheckbox = screen.getByLabelText(/Use LLM Advisory Reasoning/i);
+    expect(llmCheckbox).toBeInTheDocument();
+    expect(llmCheckbox).not.toBeChecked();
+
+    fireEvent.click(llmCheckbox);
+    expect(llmCheckbox).toBeChecked();
+
+    const textarea = screen.getByLabelText(/Task Description/i) as HTMLTextAreaElement;
+    fireEvent.change(textarea, { target: { value: 'add retry wrapper' } });
+
+    const submitBtn = screen.getByText(/Synthesize Refactor Plan/i);
+    fireEvent.click(submitBtn);
+
+    expect(handleSubmit).toHaveBeenCalledWith(expect.objectContaining({
+      task: 'add retry wrapper',
+      dry_run: true,
+      use_llm: true
+    }));
+  });
 });
