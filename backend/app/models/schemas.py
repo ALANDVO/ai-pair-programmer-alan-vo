@@ -42,6 +42,7 @@ class RefactorStep(BaseModel):
     unified_diff: str = ""
     side_effects: List[str] = Field(default_factory=list)
     ast_valid: bool = True
+    llm_advisory: Optional[str] = None
 
 class RefactorPlan(BaseModel):
     plan_id: str
@@ -53,6 +54,8 @@ class RefactorPlan(BaseModel):
     ast_valid: bool = True
     model_used: str = "deterministic-offline-engine"
     generated_at: str
+    llm_advisory: Optional[str] = None
+    llm_provider: Optional[str] = None
 
 class RefactorRequest(BaseModel):
     task: str

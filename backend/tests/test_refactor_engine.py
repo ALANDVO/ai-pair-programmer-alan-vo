@@ -84,3 +84,43 @@ def test_apply_plan_dry_run_and_confirm():
         # Confirm
         confirm_result = engine.apply_plan(plan.plan_id, confirm=True)
         assert confirm_result.success is True
+
+def test_plan_with_llm_advisory_fallback_when_unconfigured():
+    """Test that use_llm=True falls back to deterministic mode when no API key is configured."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        src = os.path.join(tmpdir, "service.py")
+        with open(src, "w") as f:
+            f.write("def calculate_tax(amount):\n    return amount * 0.1\n")
+
+        engine = RefactorEngine(CodebaseIndexer(root_path=tmpdir))
+        req = RefactorRequest(task="rename calculate_tax to compute_tax", path=tmpdir, use_llm=True)
+        plan = engine.plan_refactor(req)
+
+        assert plan.plan_id.startswith("plan-")
+        assert len(plan.steps) == 1
+        assert plan.model_used == "deterministic-offline-engine"
+        assert plan.llm_advisory is None
+        assert plan.llm_provider is None
+        # Steps should not have LLM advisory when unconfigured
+        assert plan.steps[0].llm_advisory is None
+
+def test_plan_with_llm_advisory_flag_in_request():
+    """Test that use_llm flag is properly passed and reflected in plan."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        src = os.path.join(tmpdir, "service.py")
+        with open(src, "w") as f:
+            f.write("def fetch_data():\n    return 'data'\n")
+
+        engine = RefactorEngine(CodebaseIndexer(root_path=tmpdir))
+        req_false = RefactorRequest(task="add retry wrapper", path=tmpdir, use_llm=False)
+        req_true = RefactorRequest(task="add retry wrapper", path=tmpdir, use_llm=True)
+
+        plan_false = engine.plan_refactor(req_false)
+        plan_true = engine.plan_refactor(req_true)
+
+        # Both should succeed
+        assert plan_false.plan_id != plan_true.plan_id
+        assert plan_false.llm_advisory is None
+        assert plan_true.llm_advisory is None  # None when unconfigured
+        assert plan_false.model_used == "deterministic-offline-engine"
+        assert plan_true.model_used == "deterministic-offline-engine"

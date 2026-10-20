@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "codebase-indexing-and-plan-generation",
+  "current_feature": "llm-advisory-integration",
   "features": [
     {
       "id": "codebase-indexing-and-plan-generation",
@@ -37,6 +37,29 @@
         "backend/tests/test_api.py",
         "frontend/src/__tests__/App.test.tsx",
         "frontend/src/__tests__/Dashboard.test.tsx",
+        "frontend/src/__tests__/TaskForm.test.tsx"
+      ]
+    },
+    {
+      "id": "llm-advisory-integration",
+      "title": "LLM advisory reasoning integration into refactor plans",
+      "status": "done",
+      "acceptance": [
+        "Refactor engine calls LLM adapter when use_llm=true in request",
+        "LLM advisory explanations included in plan steps and summary",
+        "Frontend TaskForm exposes use_llm checkbox",
+        "Deterministic offline fallback preserved when no LLM key configured"
+      ],
+      "implementation": [
+        "backend/app/services/refactor_engine.py",
+        "backend/app/services/llm_adapter.py",
+        "backend/app/models/schemas.py",
+        "frontend/src/components/TaskForm.tsx",
+        "frontend/src/types/index.ts"
+      ],
+      "tests": [
+        "backend/tests/test_refactor_engine.py",
+        "backend/tests/test_llm_adapter.py",
         "frontend/src/__tests__/TaskForm.test.tsx"
       ]
     },

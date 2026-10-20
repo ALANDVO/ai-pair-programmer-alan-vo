@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.0.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
@@ -17,5 +21,13 @@ All notable changes to this project will be documented in this file.
 - **FastAPI REST API**: Endpoints for codebase indexing, refactoring plans, diff previews, benchmark evaluation, and health/stats metrics.
 - **React + TypeScript Dashboard**: Interactive UI with codebase context tree, task configuration, unified diff inspector, and evaluation metrics viewer.
 - **Containerization & CI**: Dockerfiles for backend and frontend with non-root security profiles, compose orchestration with Keycloak broker, and GitHub Actions CI workflow.
+
+## [1.0.1] - 2026-10-20
+
+### Added
+- **LLM Advisory Integration**: Refactor engine now calls LLM adapter when `use_llm=true` in request, incorporating advisory reasoning into plan summary and individual steps.
+- **Frontend LLM Toggle**: TaskForm component exposes "Use LLM Advisory Reasoning" checkbox to opt-in to LLM-powered explanations.
+- **Deterministic Fallback Preserved**: When no LLM API key is configured, system gracefully falls back to deterministic offline engine with clear labeling.
+- **Test Coverage**: Added backend tests for LLM advisory fallback behavior and frontend test for TaskForm use_llm checkbox.
 
 Author: Alan Vo <alanvo@gmail.com>

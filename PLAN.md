@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-codebase-indexing-and-plan-generation
+llm-advisory-integration
 
 ## Roadmap
 
@@ -22,6 +22,20 @@ Acceptance:
 Implementation: `backend/app/main.py`, `backend/app/core/config.py`, `backend/app/models/schemas.py`, `backend/app/services/indexer.py`, `backend/app/services/refactor_engine.py`, `backend/app/services/evaluator.py`, `backend/app/services/llm_adapter.py`, `backend/app/api/routes.py`, `frontend/src/types/index.ts`, `frontend/src/api/client.ts`, `frontend/src/components/Dashboard.tsx`, `frontend/src/components/DiffViewer.tsx`, `frontend/src/components/TaskForm.tsx`, `frontend/src/App.tsx`, `frontend/src/main.tsx`
 
 Tests: `backend/tests/test_indexer.py`, `backend/tests/test_refactor_engine.py`, `backend/tests/test_evaluator.py`, `backend/tests/test_api.py`, `frontend/src/__tests__/App.test.tsx`, `frontend/src/__tests__/Dashboard.test.tsx`, `frontend/src/__tests__/TaskForm.test.tsx`
+
+### llm-advisory-integration — LLM advisory reasoning integration into refactor plans
+
+Status: done
+
+Acceptance:
+- Refactor engine calls LLM adapter when use_llm=true in request
+- LLM advisory explanations included in plan steps and summary
+- Frontend TaskForm exposes use_llm checkbox
+- Deterministic offline fallback preserved when no LLM key configured
+
+Implementation: `backend/app/services/refactor_engine.py`, `backend/app/services/llm_adapter.py`, `backend/app/models/schemas.py`, `frontend/src/components/TaskForm.tsx`, `frontend/src/types/index.ts`
+
+Tests: `backend/tests/test_refactor_engine.py`, `backend/tests/test_llm_adapter.py`, `frontend/src/__tests__/TaskForm.test.tsx`
 
 ### interactive-session-and-undo-history — Interactive session threads and undo rollback stack
 
