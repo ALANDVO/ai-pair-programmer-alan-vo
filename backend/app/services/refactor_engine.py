@@ -63,11 +63,20 @@ class RefactorEngine:
                 context_parts.append(f"{f.relative_path} ({f.language}): {sym_summary}")
             code_context = "\n".join(context_parts[:15])  # Limit context size
 
+            # Determine refactoring type for more targeted advisory
+            refactor_type = "generic improvement"
+            if rename_match:
+                refactor_type = f"symbol rename ({old_name} → {new_name})"
+            elif retry_match:
+                refactor_type = "retry wrapper injection"
+            elif audit_match:
+                refactor_type = "audit logging insertion"
+
             try:
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
                 llm_resp = loop.run_until_complete(
-                    self._llm_adapter.generate_explanation(code_context, request.task)
+                    self._llm_adapter.generate_explanation(code_context, request.task, refactor_type)
                 )
                 loop.close()
 

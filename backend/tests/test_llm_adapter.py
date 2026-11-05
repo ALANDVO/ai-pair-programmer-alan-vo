@@ -10,7 +10,8 @@ def test_llm_adapter_offline_deterministic_fallback():
 
     resp = asyncio.run(adapter.generate_explanation(
         code_context="def add(a, b): return a + b\n",
-        task="optimize addition function"
+        task="optimize addition function",
+        refactor_type="generic improvement"
     ))
 
     assert resp["source"] == "deterministic-offline-core"

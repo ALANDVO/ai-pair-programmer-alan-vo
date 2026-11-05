@@ -15,13 +15,13 @@ class LLMAdapter:
     def is_configured(self) -> bool:
         return bool(self.api_key)
 
-    async def generate_explanation(self, code_context: str, task: str) -> Dict[str, Any]:
+    async def generate_explanation(self, code_context: str, task: str, refactor_type: str = "generic improvement") -> Dict[str, Any]:
         """Generate advisory explanation or return deterministic fallback when no key is configured."""
         if not self.is_configured:
             return {
                 "source": "deterministic-offline-core",
                 "explanation": (
-                    f"Deterministic analysis for task '{task}': Codebase context contains "
+                    f"Deterministic analysis for task '{task}' ({refactor_type}): Codebase context contains "
                     f"{len(code_context.splitlines())} lines. All modifications are synthesized "
                     f"using static AST parsing and verified for syntactic correctness."
                 ),
@@ -30,8 +30,7 @@ class LLMAdapter:
                 "model": "deterministic-ast"
             }
 
-        prompt = f"Codebase Context:\n{code_context[:4000]}\n\nTask: {task}\nProvide concise implementation reasoning."
-        
+        prompt = f"Codebase Context:\n{code_context[:4000]}\n\nTask: {task}\nRefactoring Type: {refactor_type}\nProvide concise implementation reasoning."
         try:
             if self.provider == "anthropic":
                 text = await self._call_anthropic(prompt)
