@@ -32,6 +32,8 @@ Acceptance:
 - LLM advisory explanations included in plan steps and summary
 - Frontend TaskForm exposes use_llm checkbox
 - Deterministic offline fallback preserved when no LLM key configured
+- Context-aware LLM advisory: Refactoring type (rename, retry wrapper, audit logging, generic) passed to LLM adapter for targeted explanations
+- Enhanced deterministic fallback: Offline explanations include refactoring type context
 
 Implementation: `backend/app/services/refactor_engine.py`, `backend/app/services/llm_adapter.py`, `backend/app/models/schemas.py`, `frontend/src/components/TaskForm.tsx`, `frontend/src/types/index.ts`
 

@@ -1,9 +1,25 @@
 # Changelog
 
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.2.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
 
+## [1.2.1] - 2026-11-05
+
+### Added
+- **Context-Aware LLM Advisory**: Refactoring type (rename, retry wrapper, audit logging, generic) now passed to LLM adapter for more targeted advisory explanations.
+- **Enhanced Deterministic Fallback**: Offline fallback explanations now include refactoring type context for better clarity.
+- **Improved LLM Prompts**: System prompt augmented with refactoring type to guide more specific implementation reasoning.
+
+### Changed
+- Updated `LLMAdapter.generate_explanation()` signature to accept optional `refactor_type` parameter.
+- Updated `RefactorEngine.plan_refactor()` to detect and pass refactoring type to LLM advisory calls.
+
+Author: Alan Vo <alanvo@gmail.com>
 ## 1.1.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

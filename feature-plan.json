@@ -48,7 +48,9 @@
         "Refactor engine calls LLM adapter when use_llm=true in request",
         "LLM advisory explanations included in plan steps and summary",
         "Frontend TaskForm exposes use_llm checkbox",
-        "Deterministic offline fallback preserved when no LLM key configured"
+        "Deterministic offline fallback preserved when no LLM key configured",
+        "Context-aware LLM advisory: Refactoring type (rename, retry wrapper, audit logging, generic) passed to LLM adapter for targeted explanations",
+        "Enhanced deterministic fallback: Offline explanations include refactoring type context"
       ],
       "implementation": [
         "backend/app/services/refactor_engine.py",
