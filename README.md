@@ -158,3 +158,7 @@ The benchmark suite (`backend/app/services/evaluator.py`) evaluates 5 standardiz
 ---
 
 **Built by [Alan Vo](https://github.com/ALANDVO)** | alanvo@gmail.com | AI, Machine Learning & AST Refactoring Engine
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

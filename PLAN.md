@@ -63,3 +63,6 @@ Acceptance:
 - Empirical benchmark runner evaluating patch validity, AST correctness, and side-effect recall across models
 - Exportable benchmark metrics and comparative evaluation report
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

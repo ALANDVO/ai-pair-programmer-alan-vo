@@ -51,3 +51,7 @@ All notable changes to this project will be documented in this file.
 - **Test Coverage**: Added backend tests for LLM advisory fallback behavior and frontend test for TaskForm use_llm checkbox.
 
 Author: Alan Vo <alanvo@gmail.com>
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
