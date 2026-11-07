@@ -54,4 +54,4 @@ Author: Alan Vo <alanvo@gmail.com>
 
 ---
 
-Alan Vo · [alanvo.net](https://alanvo.net)
+Alan Vo · [alanvo.net](https://alanvo.net) · [X: @alanvoasi](https://x.com/alanvoasi)
