@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.3.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
@@ -20,6 +24,19 @@ Partial code published for continued development. Known issues: STATUS.md.
 - Updated `RefactorEngine.plan_refactor()` to detect and pass refactoring type to LLM advisory calls.
 
 Author: Alan Vo <alanvo@gmail.com>
+
+## [1.2.2] - 2026-11-08
+
+### Added
+- **Deterministic Fallback Advisory on Demand**: When `use_llm=true` but no LLM API key is configured, the system now returns the deterministic offline advisory explanation instead of silently skipping it. This ensures users who opt-in to LLM advisory always receive reasoning, with clear labeling of the source (offline engine vs. LLM provider).
+- **Updated Test Coverage**: Tests updated to verify deterministic advisory is provided when `use_llm=true` without API configuration.
+
+### Changed
+- Modified `RefactorEngine.plan_refactor()` to call LLM adapter whenever `request.use_llm` is true, allowing the adapter's built-in fallback to provide deterministic explanations.
+- Updated `test_plan_with_llm_advisory_fallback_when_unconfigured` and `test_plan_with_llm_advisory_flag_in_request` to reflect new expected behavior.
+
+Author: Alan Vo <alanvo@gmail.com>
+
 ## 1.1.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

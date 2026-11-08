@@ -55,7 +55,7 @@ class RefactorEngine:
         llm_advisory = None
         llm_provider = None
         model_used = "deterministic-offline-engine"
-        if request.use_llm and self._llm_adapter.is_configured:
+        if request.use_llm:
             # Build context from indexed files for LLM
             context_parts = []
             for f in index.files:
@@ -66,7 +66,7 @@ class RefactorEngine:
             # Determine refactoring type for more targeted advisory
             refactor_type = "generic improvement"
             if rename_match:
-                refactor_type = f"symbol rename ({old_name} → {new_name})"
+                refactor_type = f"symbol rename ({old_name} \u2192 {new_name})"
             elif retry_match:
                 refactor_type = "retry wrapper injection"
             elif audit_match:
@@ -85,6 +85,8 @@ class RefactorEngine:
                     llm_provider = llm_resp.get("provider", "unknown")
                     if llm_resp.get("source") != "deterministic-offline-core":
                         model_used = f"{llm_provider}:{self._llm_adapter.model}"
+                    else:
+                        model_used = "deterministic-offline-engine"
             except Exception:
                 # Silently fall back to deterministic mode on LLM errors
                 pass
