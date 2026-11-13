@@ -59,6 +59,7 @@ def run_cli(args=None):
     s.add_argument("--path", default=".")
     s.add_argument("--max-files", type=int, default=15)
     s.add_argument("--dry-run", action="store_true", default=True)
+    s.add_argument("--use-llm", action="store_true")
     s.add_argument("--apply", action="store_true")
     s.set_defaults(fn=suggest)
 
@@ -77,6 +78,7 @@ def run_cli(args=None):
     r.add_argument("--task", required=True)
     r.add_argument("--path", default=".")
     r.add_argument("--max-files", type=int, default=15)
+    r.add_argument("--use-llm", action="store_true")
     r.add_argument("--apply", action="store_true")
     r.set_defaults(fn=refactor)
 
