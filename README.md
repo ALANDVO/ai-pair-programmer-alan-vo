@@ -162,3 +162,5 @@ The benchmark suite (`backend/app/services/evaluator.py`) evaluates 5 standardiz
 ---
 
 Alan Vo · [alanvo.net](https://alanvo.net) · [X: @alanvoasi](https://x.com/alanvoasi)
+ * LLM advisory integration (CLI: --use-LLM flag) added.
+ * LLM advisory integration (CLI: --use-LLM flag) added.
