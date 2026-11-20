@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-llm-advisory-integration
+interactive-session-and-undo-history
 
 ## Roadmap
 
@@ -41,7 +41,7 @@ Tests: `backend/tests/test_refactor_engine.py`, `backend/tests/test_llm_adapter.
 
 ### interactive-session-and-undo-history — Interactive session threads and undo rollback stack
 
-Status: planned
+Status: done
 
 Acceptance:
 - Multi-turn conversational pair programming sessions with context tracking
