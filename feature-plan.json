@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "llm-advisory-integration",
+  "current_feature": "interactive-session-and-undo-history",
   "features": [
     {
       "id": "codebase-indexing-and-plan-generation",
@@ -68,7 +68,7 @@
     {
       "id": "interactive-session-and-undo-history",
       "title": "Interactive session threads and undo rollback stack",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Multi-turn conversational pair programming sessions with context tracking",
         "Transactional patch rollback stack with undo logging and state recovery"
