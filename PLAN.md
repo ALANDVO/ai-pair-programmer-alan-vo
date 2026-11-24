@@ -49,7 +49,7 @@ Acceptance:
 
 ### oidc-keycloak-auth-and-rbac — OIDC Keycloak authentication and role-based access control
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Keycloak OIDC PKCE code flow authentication with viewer, analyst, and admin roles

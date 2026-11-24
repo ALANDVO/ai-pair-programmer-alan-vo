@@ -77,7 +77,7 @@
     {
       "id": "oidc-keycloak-auth-and-rbac",
       "title": "OIDC Keycloak authentication and role-based access control",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Keycloak OIDC PKCE code flow authentication with viewer, analyst, and admin roles",
         "Enforced authorization on API endpoints and token validation"
