@@ -1,6 +1,7 @@
 """FastAPI REST API routes for AI pair programmer."""
 from datetime import datetime, timezone
 from typing import List, Optional
+from jose import jwt, JWTError
 from fastapi import APIRouter, HTTPException, Depends, Header, Query
 from app.models.schemas import (
     HealthResponse, StatsResponse, CodebaseIndex,
@@ -26,13 +27,39 @@ def get_current_user(authorization: Optional[str] = Header(None)) -> AuthUser:
         token = authorization.split(" ")[1]
         if token == "invalid" or len(token) < 5:
             raise HTTPException(status_code=401, detail="Invalid token")
-        return AuthUser(
-            user_id="usr-oidc-verified",
-            username="analyst_user",
-            email="analyst@alan-vo.local",
-            roles=["analyst", "operator"],
-            is_authenticated=True
-        )
+        # Try Keycloak OIDC token validation first
+        try:
+            # Validate the Keycloak access token
+            decoded = jwt.decode(
+                token,
+                options={"verify_signature": False},  # Signature verification disabled for demo;
+                # in production use Keycloak public key
+                key="dummy-key-for-development-only"
+            )
+            # Map Keycloak realm roles to our AuthUser roles
+            realm_access = decoded.get("realm_access", {})
+            roles = realm_access.get("roles", [])
+            username = decoded.get("preferred_username", decoded.get("sub", "unknown"))
+            user_id = decoded.get("sub", "usr-keycloak-verified")
+            email = decoded.get("email", "user@alan-vo.local")
+            return AuthUser(
+                user_id=user_id,
+                username=username,
+                email=email,
+                roles=roles,
+                is_authenticated=True
+            )
+        except JWTError:
+            # Not a Keycloak token; fall back to original analyst_user for backwards compat
+            if not settings.auth_demo_mode:
+                raise HTTPException(status_code=401, detail="Authentication required: Provide Keycloak Bearer token")
+            return AuthUser(
+                user_id="usr-oidc-verified",
+                username="analyst_user",
+                email="analyst@alan-vo.local",
+                roles=["analyst", "operator"],
+                is_authenticated=True
+            )
 
     if settings.auth_demo_mode:
         return AuthUser(
